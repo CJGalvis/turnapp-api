@@ -2,10 +2,9 @@ import express, { Application } from "express";
 import fileUpload from 'express-fileupload';
 import compression from 'compression';
 import cors from 'cors';
-import testRoute from './routes/test.route';
+import routes from './routes/index.routes';
 
 const app: Application = express();
-const namePath: string = 'test';
 
 //middlewares
 app.use(fileUpload());
@@ -16,7 +15,6 @@ app.use(cors());
 
 //routes
 app.get("/", (req, res) => res.send("API REST running"));
-app.use(`/api/${namePath}`, testRoute);
-
+app.use(routes);
 
 export default app;

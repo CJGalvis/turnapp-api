@@ -23,5 +23,4 @@ TestSchema.methods.toJSON = function () {
     return userObject;
 };
 
-
 export default model<ITest>("test", TestSchema);
