@@ -63,14 +63,12 @@ exports.getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 price: { $gte: body.price }
             }, query);
         }
-        if (body.created) {
-            query = Object.assign({
-                $and: [
-                    { created: { $gte: body.startDate } },
-                    { created: { $lte: body.endDate } }
-                ]
-            }, query);
-        }
+        query = Object.assign({
+            $and: [
+                { created: { $gte: body.startDate } },
+                { created: { $lte: body.endDate } }
+            ]
+        }, query);
         if (body.code) {
             query = {
                 code: body.code

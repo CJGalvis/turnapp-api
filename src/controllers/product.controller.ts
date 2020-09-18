@@ -56,14 +56,12 @@ export const getProducts = async (req: Request, res: Response) => {
       }, query)
     }
 
-    if (body.created) {
-      query = Object.assign({
-        $and: [
-          { created: { $gte: body.startDate } },
-          { created: { $lte: body.endDate } }
-        ]
-      }, query)
-    }
+    query = Object.assign({
+      $and: [
+        { created: { $gte: body.startDate } },
+        { created: { $lte: body.endDate } }
+      ]
+    }, query)
 
     if (body.code) {
       query = {
