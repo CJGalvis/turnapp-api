@@ -33,43 +33,9 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
-    const { body } = req;
     let skip = Number(req.query.skip);
     let limit = Number(req.query.limit);
-    let query = {};
-
-    if (body.name) {
-      query = Object.assign({
-        name: new RegExp(`${body.name}.*`, 'i')
-      }, query)
-    }
-
-    if (body.category) {
-      query = Object.assign({
-        category: body.category
-      }, query)
-    }
-
-    if (body.price) {
-      query = Object.assign({
-        price: { $gte: body.price }
-      }, query)
-    }
-
-    query = Object.assign({
-      $and: [
-        { created: { $gte: body.startDate } },
-        { created: { $lte: body.endDate } }
-      ]
-    }, query)
-
-    if (body.code) {
-      query = {
-        code: body.code
-      }
-    }
-
-    const items: Array<IProduct> = await ProductModel.find(query).skip(skip).limit(limit);
+    const items: Array<IProduct> = await ProductModel.find().skip(skip).limit(limit);
     const totalItems: number = await ProductModel.countDocuments();
     res.status(200).send({
       message: 'ok',
@@ -95,6 +61,51 @@ export const getOneProduct = async (req: Request, res: Response) => {
     res.status(200).send({
       message: 'OK',
       data
+    })
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+      error
+    })
+  }
+}
+
+export const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { code } = req.params;
+    const data = await ProductModel.find({ code });
+    if (!data) return res.status(404).send({
+      message: 'Producto no encontrado'
+    })
+
+    await ProductModel.findOneAndDelete({ code });
+
+    res.status(200).send({
+      message: 'Producto eliminado correctamente',
+      data
+    })
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+      error
+    })
+  }
+}
+
+export const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { code } = req.params;
+    const { body } = req;
+    const data = await ProductModel.find({ code });
+    if (!data) return res.status(404).send({
+      message: 'Producto no encontrado'
+    })
+
+    const newData = await ProductModel.findOneAndUpdate({ code }, body, { new: true });
+
+    res.status(200).send({
+      message: 'Producto actualizado correctamente',
+      data: newData
     })
   } catch (error) {
     res.status(500).send({

@@ -15,6 +15,6 @@ mongoose_1.default.connect(url, {
     console.log(`Database ${process.env.ENV_RUN} is connected`);
 })
     .catch((err) => {
-    console.log('Error connect DB');
+    console.log('Error connect DB', err);
 });
 //# sourceMappingURL=database.js.map

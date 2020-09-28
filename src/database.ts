@@ -11,5 +11,5 @@ mongoose.connect(url, {
         console.log(`Database ${process.env.ENV_RUN} is connected`);
     })
     .catch((err: any) => {
-        console.log('Error connect DB');
+        console.log('Error connect DB', err);
     })

@@ -7,7 +7,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app_1 = __importDefault(require("./app"));
 require("./database");
-app_1.default.listen(process.env.PORT || 3000, () => {
-    console.log(`Server running on env ${process.env.ENV_RUN}!`);
+app_1.default.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}!`);
 });
 //# sourceMappingURL=index.js.map

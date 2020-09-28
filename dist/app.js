@@ -8,6 +8,9 @@ const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const compression_1 = __importDefault(require("compression"));
 const cors_1 = __importDefault(require("cors"));
 const index_routes_1 = __importDefault(require("./routes/index.routes"));
+const products_routes_1 = __importDefault(require("./routes/products.routes"));
+const category_routes_1 = __importDefault(require("./routes/category.routes"));
+const taxes_routes_1 = __importDefault(require("./routes/taxes.routes"));
 const app = express_1.default();
 //middlewares
 app.use(express_fileupload_1.default());
@@ -18,5 +21,8 @@ app.use(cors_1.default());
 //routes
 app.get("/", (req, res) => res.send("API REST running"));
 app.use(index_routes_1.default);
+app.use(products_routes_1.default);
+app.use(category_routes_1.default);
+app.use(taxes_routes_1.default);
 exports.default = app;
 //# sourceMappingURL=app.js.map

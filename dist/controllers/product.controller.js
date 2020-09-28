@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOneProduct = exports.getProducts = exports.createProduct = void 0;
+exports.updateProduct = exports.deleteProduct = exports.getOneProduct = exports.getProducts = exports.createProduct = void 0;
 const ProductModel_1 = __importDefault(require("../models/ProductModel"));
 exports.createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -44,37 +44,9 @@ exports.createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { body } = req;
         let skip = Number(req.query.skip);
         let limit = Number(req.query.limit);
-        let query = {};
-        if (body.name) {
-            query = Object.assign({
-                name: new RegExp(`${body.name}.*`, 'i')
-            }, query);
-        }
-        if (body.category) {
-            query = Object.assign({
-                category: body.category
-            }, query);
-        }
-        if (body.price) {
-            query = Object.assign({
-                price: { $gte: body.price }
-            }, query);
-        }
-        query = Object.assign({
-            $and: [
-                { created: { $gte: body.startDate } },
-                { created: { $lte: body.endDate } }
-            ]
-        }, query);
-        if (body.code) {
-            query = {
-                code: body.code
-            };
-        }
-        const items = yield ProductModel_1.default.find(query).skip(skip).limit(limit);
+        const items = yield ProductModel_1.default.find().skip(skip).limit(limit);
         const totalItems = yield ProductModel_1.default.countDocuments();
         res.status(200).send({
             message: 'ok',
@@ -100,6 +72,49 @@ exports.getOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(200).send({
             message: 'OK',
             data
+        });
+    }
+    catch (error) {
+        res.status(500).send({
+            message: error.message,
+            error
+        });
+    }
+});
+exports.deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { code } = req.params;
+        const data = yield ProductModel_1.default.find({ code });
+        if (!data)
+            return res.status(404).send({
+                message: 'Producto no encontrado'
+            });
+        yield ProductModel_1.default.findOneAndDelete({ code });
+        res.status(200).send({
+            message: 'Producto eliminado correctamente',
+            data
+        });
+    }
+    catch (error) {
+        res.status(500).send({
+            message: error.message,
+            error
+        });
+    }
+});
+exports.updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { code } = req.params;
+        const { body } = req;
+        const data = yield ProductModel_1.default.find({ code });
+        if (!data)
+            return res.status(404).send({
+                message: 'Producto no encontrado'
+            });
+        const newData = yield ProductModel_1.default.findOneAndUpdate({ code }, body, { new: true });
+        res.status(200).send({
+            message: 'Producto actualizado correctamente',
+            data: newData
         });
     }
     catch (error) {
