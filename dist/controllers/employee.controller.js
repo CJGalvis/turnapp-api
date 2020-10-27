@@ -12,27 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProduct = exports.deleteProduct = exports.getOneProduct = exports.getProducts = exports.createProduct = void 0;
-const ProductModel_1 = __importDefault(require("../models/ProductModel"));
-exports.createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateEmployee = exports.deleteEmployee = exports.getOneEmployee = exports.getEmployees = exports.createEmployee = void 0;
+const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
+exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { body } = req;
-        const newProduct = new ProductModel_1.default({
-            code: body.code,
-            name: body.name,
-            price: body.price,
+        const newEmployee = new EmployeeModel_1.default({
+            identificationNumber: body.identificationNumber,
+            identificationType: body.identificationType,
+            firstName: body.firstName,
+            seconName: body.seconName,
+            firstLastname: body.firstLastname,
+            seconLastname: body.seconLastname,
             created: new Date(),
             category: body.category,
-            tax: body.tax,
-            description: body.description,
-            priceCost: body.priceCost,
-            enable: body.enable,
-            stock: body.stock,
         });
-        yield newProduct.save();
+        yield newEmployee.save();
         res.status(200).send({
-            message: 'Producto guardado exitosamente',
-            newProduct
+            message: 'Empleado guardado exitosamente',
+            newEmployee
         });
     }
     catch (error) {
@@ -42,12 +40,12 @@ exports.createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
-exports.getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let skip = Number(req.query.skip);
         let limit = Number(req.query.limit);
-        const items = yield ProductModel_1.default.find().skip(skip).limit(limit);
-        const totalItems = yield ProductModel_1.default.countDocuments();
+        const items = yield EmployeeModel_1.default.find().skip(skip).limit(limit);
+        const totalItems = yield EmployeeModel_1.default.countDocuments();
         res.status(200).send({
             message: 'ok',
             items,
@@ -61,13 +59,13 @@ exports.getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
-exports.getOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getOneEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { code } = req.params;
-        const data = yield ProductModel_1.default.find({ code });
+        const data = yield EmployeeModel_1.default.find({ code });
         if (!data)
             return res.status(404).send({
-                message: 'Producto no encontrado'
+                message: 'Empleado no encontrado'
             });
         res.status(200).send({
             message: 'OK',
@@ -81,17 +79,17 @@ exports.getOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
-exports.deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { code } = req.params;
-        const data = yield ProductModel_1.default.find({ code });
+        const data = yield EmployeeModel_1.default.find({ code });
         if (!data)
             return res.status(404).send({
-                message: 'Producto no encontrado'
+                message: 'Empleado no encontrado'
             });
-        yield ProductModel_1.default.findOneAndDelete({ code });
+        yield EmployeeModel_1.default.findOneAndDelete({ code });
         res.status(200).send({
-            message: 'Producto eliminado correctamente',
+            message: 'Empleado eliminado correctamente',
             data
         });
     }
@@ -102,18 +100,18 @@ exports.deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
-exports.updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { code } = req.params;
         const { body } = req;
-        const data = yield ProductModel_1.default.find({ code });
+        const data = yield EmployeeModel_1.default.find({ code });
         if (!data)
             return res.status(404).send({
-                message: 'Producto no encontrado'
+                message: 'Empleado no encontrado'
             });
-        const newData = yield ProductModel_1.default.findOneAndUpdate({ code }, body, { new: true });
+        const newData = yield EmployeeModel_1.default.findOneAndUpdate({ code }, body, { new: true });
         res.status(200).send({
-            message: 'Producto actualizado correctamente',
+            message: 'Empleado actualizado correctamente',
             data: newData
         });
     }
@@ -124,4 +122,4 @@ exports.updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
-//# sourceMappingURL=product.controller.js.map
+//# sourceMappingURL=employee.controller.js.map

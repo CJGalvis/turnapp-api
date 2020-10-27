@@ -2,10 +2,8 @@ import express, { Application } from "express";
 import fileUpload from 'express-fileupload';
 import compression from 'compression';
 import cors from 'cors';
-import routes from './routes/index.routes';
-import routesProducts from './routes/products.routes';
-import routesCategories from './routes/category.routes';
-import routesTaxes from './routes/taxes.routes';
+import routesEmployees from './routes/employees.routes';
+import routesShedules from './routes/shedule.routes';
 
 const app: Application = express();
 
@@ -18,9 +16,7 @@ app.use(cors());
 
 //routes
 app.get("/", (req, res) => res.send("API REST running"));
-app.use(routes);
-app.use(routesProducts);
-app.use(routesCategories);
-app.use(routesTaxes);
+app.use(routesEmployees);
+app.use(routesShedules);
 
 export default app;

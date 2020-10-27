@@ -12,19 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTax = exports.createTax = void 0;
-const TaxModel_1 = __importDefault(require("../models/TaxModel"));
-exports.createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getShedules = exports.createShedule = void 0;
+const SheduleModel_1 = __importDefault(require("../models/SheduleModel"));
+exports.createShedule = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { body } = req;
-        const newTax = new TaxModel_1.default({
-            value: body.value,
-            description: body.description
+        const newShedule = new SheduleModel_1.default({
+            timeStart: body.timeStart,
+            timeEnd: body.timeEnd,
+            employee: body.employee,
+            assigned: body.assigned
         });
-        yield newTax.save();
+        yield newShedule.save();
         res.status(200).send({
             message: 'OK',
-            data: newTax
+            data: newShedule
         });
     }
     catch (error) {
@@ -34,9 +36,9 @@ exports.createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
-exports.getTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getShedules = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const items = yield TaxModel_1.default.find();
+        const items = yield SheduleModel_1.default.find();
         res.status(200).send({
             message: 'OK',
             items
@@ -49,4 +51,4 @@ exports.getTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
 });
-//# sourceMappingURL=taxes.controller.js.map
+//# sourceMappingURL=shedule.controller.js.map
