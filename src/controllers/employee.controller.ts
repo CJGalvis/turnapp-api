@@ -5,6 +5,7 @@ export const createEmployee = async (req: Request, res: Response) => {
   try {
     const { body } = req;
     const newEmployee: IEmployee = new EmployeeModel({
+      code: body.code,
       identificationNumber: body.identificationNumber,
       identificationType: body.identificationType,
       firstName: body.firstName,
