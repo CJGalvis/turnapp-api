@@ -1,24 +1,29 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface IShedule extends Document {
-  timeStart: Date;
-  timeEnd: Date;
-  employee: string;
+  employeeCode: string;
+  date: Date;
+  type: Date;
+  hours: string;
   assigned: boolean
 }
 
 const SheduleSchema = new Schema({
-  timeStart: {
-    type: Date,
-    required: [true, 'La hora inicial del turno es requerida'],
-  },
-  timeEnd: {
-    type: Date,
-    required: [true, 'La hora final del turno es requerida'],
-  },
-  employee: {
+  employeeCode: {
     type: String,
-    default: null
+    required: [true, 'La código del empleado del turno es requerido'],
+  },
+  date: {
+    type: Date,
+    required: [true, 'La fecha del turno es requerida'],
+  },
+  type: {
+    type: String,
+    required: [true, 'El tipo de turno es requerido'],
+  },
+  hours: {
+    type: String,
+    required: [true, 'Las horas del turno es requerido'],
   },
   assigned: {
     type: Boolean,
