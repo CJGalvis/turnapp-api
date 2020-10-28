@@ -31,6 +31,11 @@ const EmployeeSchema = new mongoose_1.Schema({
         type: String,
         default: ''
     },
+    email: {
+        type: String,
+        required: [true, 'El email del empleado es requerido'],
+        unique: true
+    },
     created: {
         type: Date,
     },

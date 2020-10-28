@@ -25,8 +25,11 @@ exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
             firstLastname: body.firstLastname,
             seconLastname: body.seconLastname,
             created: new Date(),
+            email: body.email,
             category: body.category,
         });
+        newEmployee.code = newEmployee.firstName.substring(0, 1).toUpperCase() + newEmployee.identificationNumber + newEmployee.firstLastname.substring(0, 1).toUpperCase();
+        newEmployee.created = new Date();
         yield newEmployee.save();
         res.status(200).send({
             message: 'Empleado guardado exitosamente',

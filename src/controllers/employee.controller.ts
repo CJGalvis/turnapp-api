@@ -5,7 +5,6 @@ export const createEmployee = async (req: Request, res: Response) => {
   try {
     const { body } = req;
     const newEmployee: IEmployee = new EmployeeModel({
-      code: body.code,
       identificationNumber: body.identificationNumber,
       identificationType: body.identificationType,
       firstName: body.firstName,
@@ -16,6 +15,9 @@ export const createEmployee = async (req: Request, res: Response) => {
       email: body.email,
       category: body.category,
     });
+
+    newEmployee.code = newEmployee.firstName.substring(0, 1).toUpperCase() + newEmployee.identificationNumber + newEmployee.firstLastname.substring(0, 1).toUpperCase();
+    newEmployee.created = new Date();
 
     await newEmployee.save();
 
