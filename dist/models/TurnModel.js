@@ -7,11 +7,11 @@ const TurnSchema = new mongoose_1.Schema({
         required: [true, 'El nombre del turno es requerido'],
     },
     timeStart: {
-        type: Date,
+        type: String,
         required: [true, 'La hora inicial del turno es requerida'],
     },
     timeEnd: {
-        type: Date,
+        type: String,
         required: [true, 'La hora final del turno es requerida'],
     }
 }, { versionKey: false });
