@@ -11,7 +11,7 @@ export const createTurn = async (req: Request, res: Response) => {
     });
     await newTurn.save();
     res.status(200).send({
-      message: 'OK',
+      message: 'Turno creado correctamente',
       data: newTurn
     });
   } catch (error) {
@@ -71,7 +71,7 @@ export const updateTurn = async (req: Request, res: Response) => {
     const newData = await TurnModel.findByIdAndUpdate(_id, body, { new: true });
 
     res.status(200).send({
-      message: 'Turtno actualizado correctamente',
+      message: 'Turno actualizado correctamente',
       data: newData
     })
   } catch (error) {
