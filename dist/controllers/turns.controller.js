@@ -24,7 +24,7 @@ exports.createTurn = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
         yield newTurn.save();
         res.status(200).send({
-            message: 'OK',
+            message: 'Turno creado correctamente',
             data: newTurn
         });
     }
@@ -82,7 +82,7 @@ exports.updateTurn = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             });
         const newData = yield TurnModel_1.default.findByIdAndUpdate(_id, body, { new: true });
         res.status(200).send({
-            message: 'Turtno actualizado correctamente',
+            message: 'Turno actualizado correctamente',
             data: newData
         });
     }

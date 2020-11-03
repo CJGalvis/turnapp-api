@@ -116,3 +116,54 @@ export const updateEmployee = async (req: Request, res: Response) => {
     })
   }
 }
+
+export const getEmployeesFilters = async (req: Request, res: Response) => {
+  try {
+    let skip = Number(req.body.skip);
+    let limit = Number(req.body.limit);
+    let body = {};
+
+    if (req.body.firstName) {
+      body = Object.assign({
+        $or: [
+          { firstName: new RegExp(`${req.body.firstName}.*`, 'i') }
+        ]
+      }, body)
+    }
+
+    if (req.body.firstLastname) {
+      body = Object.assign({
+        $or: [
+          { firstLastname: new RegExp(`${req.body.firstLastname}.*`, 'i') }
+        ]
+      }, body)
+    }
+
+    if (req.body.category) {
+      body = Object.assign({
+        $or: [
+          { category: req.body.category }
+        ]
+      }, body)
+    }
+
+    if (req.body.code) {
+      body = {
+        code: req.body.code
+      }
+    }
+    const items: Array<IEmployee> = await EmployeeModel.find({ ...body }).skip(skip).limit(limit);
+    const totalItems: number = await EmployeeModel.countDocuments();
+    res.status(200).send({
+      message: 'ok',
+      items,
+      totalItems
+    })
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+      error
+    })
+  }
+}
+

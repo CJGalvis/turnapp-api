@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateEmployee = exports.deleteEmployee = exports.getOneEmployee = exports.getEmployees = exports.createEmployee = void 0;
+exports.getEmployeesFilters = exports.updateEmployee = exports.deleteEmployee = exports.getOneEmployee = exports.getEmployees = exports.createEmployee = void 0;
 const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
 exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -116,6 +116,52 @@ exports.updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(200).send({
             message: 'Empleado actualizado correctamente',
             data: newData
+        });
+    }
+    catch (error) {
+        res.status(500).send({
+            message: error.message,
+            error
+        });
+    }
+});
+exports.getEmployeesFilters = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let skip = Number(req.body.skip);
+        let limit = Number(req.body.limit);
+        let body = {};
+        if (req.body.firstName) {
+            body = Object.assign({
+                $or: [
+                    { firstName: new RegExp(`${req.body.firstName}.*`, 'i') }
+                ]
+            }, body);
+        }
+        if (req.body.firstLastname) {
+            body = Object.assign({
+                $or: [
+                    { firstLastname: new RegExp(`${req.body.firstLastname}.*`, 'i') }
+                ]
+            }, body);
+        }
+        if (req.body.category) {
+            body = Object.assign({
+                $or: [
+                    { category: req.body.category }
+                ]
+            }, body);
+        }
+        if (req.body.code) {
+            body = {
+                code: req.body.code
+            };
+        }
+        const items = yield EmployeeModel_1.default.find(Object.assign({}, body)).skip(skip).limit(limit);
+        const totalItems = yield EmployeeModel_1.default.countDocuments();
+        res.status(200).send({
+            message: 'ok',
+            items,
+            totalItems
         });
     }
     catch (error) {
