@@ -6,10 +6,10 @@ export const createShedule = async (req: Request, res: Response) => {
     const { body } = req;
     const newShedule: IShedule = new SheduleModel({
       employeeCode: body.employeeCode,
-      date: body.date,
+      dateStart: body.dateStart,
+      dateEnd: body.dateEnd,
       type: body.type,
       hours: body.hours,
-      assigned: body.assigned
     })
     await newShedule.save();
     res.status(200).send({

@@ -4,6 +4,8 @@ import compression from 'compression';
 import cors from 'cors';
 import routesEmployees from './routes/employees.routes';
 import routesShedules from './routes/shedule.routes';
+import routesTurns from './routes/turns.routes';
+import routesCategories from './routes/categories.routes';
 
 const app: Application = express();
 
@@ -18,5 +20,7 @@ app.use(cors());
 app.get("/", (req, res) => res.send("API REST running"));
 app.use(routesEmployees);
 app.use(routesShedules);
+app.use(routesTurns);
+app.use(routesCategories);
 
 export default app;

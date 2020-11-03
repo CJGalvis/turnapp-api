@@ -2,10 +2,10 @@ import { Schema, model, Document } from 'mongoose';
 
 export interface IShedule extends Document {
   employeeCode: string;
-  date: Date;
+  dateStart: Date;
+  dateEnd: Date;
   type: Date;
   hours: string;
-  assigned: boolean
 }
 
 const SheduleSchema = new Schema({
@@ -13,9 +13,13 @@ const SheduleSchema = new Schema({
     type: String,
     required: [true, 'La código del empleado del turno es requerido'],
   },
-  date: {
+  dateStart: {
     type: Date,
-    required: [true, 'La fecha del turno es requerida'],
+    required: [true, 'La fecha inicial del turno es requerida'],
+  },
+  dateEnd: {
+    type: Date,
+    required: [true, 'La fecha final del turno es requerida'],
   },
   type: {
     type: String,
@@ -24,10 +28,6 @@ const SheduleSchema = new Schema({
   hours: {
     type: String,
     required: [true, 'Las horas del turno es requerido'],
-  },
-  assigned: {
-    type: Boolean,
-    default: false
   }
 },
   { versionKey: false }

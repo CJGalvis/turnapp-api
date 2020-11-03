@@ -18,10 +18,11 @@ exports.createShedule = (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         const { body } = req;
         const newShedule = new SheduleModel_1.default({
-            timeStart: body.timeStart,
-            timeEnd: body.timeEnd,
-            employee: body.employee,
-            assigned: body.assigned
+            employeeCode: body.employeeCode,
+            dateStart: body.dateStart,
+            dateEnd: body.dateEnd,
+            type: body.type,
+            hours: body.hours,
         });
         yield newShedule.save();
         res.status(200).send({

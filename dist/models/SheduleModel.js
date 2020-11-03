@@ -2,21 +2,25 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const SheduleSchema = new mongoose_1.Schema({
-    timeStart: {
-        type: Date,
-        required: [true, 'La hora inicial del turno es requerida'],
-    },
-    timeEnd: {
-        type: Date,
-        required: [true, 'La hora final del turno es requerida'],
-    },
-    employee: {
+    employeeCode: {
         type: String,
-        default: null
+        required: [true, 'La código del empleado del turno es requerido'],
     },
-    assigned: {
-        type: Boolean,
-        default: false
+    dateStart: {
+        type: Date,
+        required: [true, 'La fecha inicial del turno es requerida'],
+    },
+    dateEnd: {
+        type: Date,
+        required: [true, 'La fecha final del turno es requerida'],
+    },
+    type: {
+        type: String,
+        required: [true, 'El tipo de turno es requerido'],
+    },
+    hours: {
+        type: String,
+        required: [true, 'Las horas del turno es requerido'],
     }
 }, { versionKey: false });
 exports.default = mongoose_1.model("shedules", SheduleSchema);
