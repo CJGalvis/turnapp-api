@@ -2,8 +2,8 @@ import { Schema, model, Document } from 'mongoose';
 
 export interface ITurn extends Document {
     name: string;
-    timeStart: Date;
-    timeEnd: Date;
+    timeStart: string;
+    timeEnd: string;
 }
 
 const TurnSchema = new Schema({
@@ -12,11 +12,11 @@ const TurnSchema = new Schema({
         required: [true, 'El nombre del turno es requerido'],
     },
     timeStart: {
-        type: Date,
+        type: String,
         required: [true, 'La hora inicial del turno es requerida'],
     },
     timeEnd: {
-        type: Date,
+        type: String,
         required: [true, 'La hora final del turno es requerida'],
     }
 },
