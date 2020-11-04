@@ -10,7 +10,7 @@ const router: Router = Router();
 
 router.post('/turns/new', createTurn);
 router.get('/turns/get', getTurns);
-router.put('/turns/update/:_id', updateTurn);
+router.put('/turns/put/:_id', updateTurn);
 router.delete('/turns/delete/:_id', deleteTurns);
 
 export default router;
