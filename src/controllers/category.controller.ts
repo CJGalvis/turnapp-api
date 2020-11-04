@@ -6,11 +6,11 @@ export const createCategory = async (req: Request, res: Response) => {
         const { body } = req;
         const newCategory: ICategory = new CategoryModel({
             name: body.name,
-            value: body.value
+            description: body.description
         });
         await newCategory.save();
         res.status(200).send({
-            message: 'OK',
+            message: 'Categoría guardada exitósamente',
             data: newCategory
         });
     } catch (error) {

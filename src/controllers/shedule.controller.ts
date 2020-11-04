@@ -13,7 +13,7 @@ export const createShedule = async (req: Request, res: Response) => {
     })
     await newShedule.save();
     res.status(200).send({
-      message: 'OK',
+      message: 'Horario guardado exitósamente',
       data: newShedule
     });
   } catch (error) {

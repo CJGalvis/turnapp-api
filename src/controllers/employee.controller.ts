@@ -22,7 +22,7 @@ export const createEmployee = async (req: Request, res: Response) => {
     await newEmployee.save();
 
     res.status(200).send({
-      message: 'Empleado guardado exitosamente',
+      message: 'Empleado guardado exitósamente',
       newEmployee
     })
   } catch (error) {

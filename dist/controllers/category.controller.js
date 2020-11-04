@@ -19,11 +19,11 @@ exports.createCategory = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const { body } = req;
         const newCategory = new CategoryModel_1.default({
             name: body.name,
-            value: body.value
+            description: body.description
         });
         yield newCategory.save();
         res.status(200).send({
-            message: 'OK',
+            message: 'Categoría guardada exitósamente',
             data: newCategory
         });
     }

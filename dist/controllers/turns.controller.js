@@ -24,7 +24,7 @@ exports.createTurn = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
         yield newTurn.save();
         res.status(200).send({
-            message: 'Turno creado correctamente',
+            message: 'Turno guardado exitósamente',
             data: newTurn
         });
     }

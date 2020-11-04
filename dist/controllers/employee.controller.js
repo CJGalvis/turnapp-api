@@ -32,7 +32,7 @@ exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
         newEmployee.created = new Date();
         yield newEmployee.save();
         res.status(200).send({
-            message: 'Empleado guardado exitosamente',
+            message: 'Empleado guardado exitósamente',
             newEmployee
         });
     }

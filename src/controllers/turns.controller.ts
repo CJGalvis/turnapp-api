@@ -11,7 +11,7 @@ export const createTurn = async (req: Request, res: Response) => {
     });
     await newTurn.save();
     res.status(200).send({
-      message: 'Turno creado correctamente',
+      message: 'Turno guardado exitósamente',
       data: newTurn
     });
   } catch (error) {

@@ -26,7 +26,7 @@ exports.createShedule = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
         yield newShedule.save();
         res.status(200).send({
-            message: 'OK',
+            message: 'Horario guardado exitósamente',
             data: newShedule
         });
     }
