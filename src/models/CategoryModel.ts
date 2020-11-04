@@ -2,7 +2,7 @@ import { Schema, model, Document } from 'mongoose';
 
 export interface ICategory extends Document {
     name: string;
-    value: string;
+    description: string;
 }
 
 const CategorySchema = new Schema({
@@ -10,7 +10,7 @@ const CategorySchema = new Schema({
         type: String,
         required: [true, 'El nombre de la categoría es requerido'],
     },
-    value: {
+    description: {
         type: String,
         required: [true, 'El valor de la categoría es requerido'],
     }

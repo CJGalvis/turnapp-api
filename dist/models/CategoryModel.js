@@ -6,7 +6,7 @@ const CategorySchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'El nombre de la categoría es requerido'],
     },
-    value: {
+    description: {
         type: String,
         required: [true, 'El valor de la categoría es requerido'],
     }
