@@ -6,6 +6,7 @@ import routesEmployees from './routes/employees.routes';
 import routesShedules from './routes/shedule.routes';
 import routesTurns from './routes/turns.routes';
 import routesCategories from './routes/categories.routes';
+import routesIdentification from './routes/identification.routes';
 
 const app: Application = express();
 
@@ -22,5 +23,6 @@ app.use(routesEmployees);
 app.use(routesShedules);
 app.use(routesTurns);
 app.use(routesCategories);
+app.use(routesIdentification);
 
 export default app;
