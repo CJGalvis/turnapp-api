@@ -13,6 +13,10 @@ const TurnSchema = new mongoose_1.Schema({
     timeEnd: {
         type: String,
         required: [true, 'La hora final del turno es requerida'],
+    },
+    tennat: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'tennants'
     }
 }, { versionKey: false });
 exports.default = mongoose_1.model("turns", TurnSchema);

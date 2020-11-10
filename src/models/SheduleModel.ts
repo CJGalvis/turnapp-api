@@ -28,6 +28,10 @@ const SheduleSchema = new Schema({
   hours: {
     type: String,
     required: [true, 'Las horas del turno es requerido'],
+  },
+  tennat: {
+    type: Schema.Types.ObjectId,
+    ref: 'tennants'
   }
 },
   { versionKey: false }

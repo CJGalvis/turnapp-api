@@ -21,6 +21,10 @@ const SheduleSchema = new mongoose_1.Schema({
     hours: {
         type: String,
         required: [true, 'Las horas del turno es requerido'],
+    },
+    tennat: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'tennants'
     }
 }, { versionKey: false });
 exports.default = mongoose_1.model("shedules", SheduleSchema);

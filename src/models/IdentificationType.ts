@@ -13,6 +13,10 @@ const IdentificationTypeSchema = new Schema({
     description: {
         type: String,
         required: [true, 'La descripción es requerido'],
+    },
+    tennat: {
+        type: Schema.Types.ObjectId,
+        ref: 'tennants'
     }
 },
     { versionKey: false }

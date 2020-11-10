@@ -12,6 +12,7 @@ const shedule_routes_1 = __importDefault(require("./routes/shedule.routes"));
 const turns_routes_1 = __importDefault(require("./routes/turns.routes"));
 const categories_routes_1 = __importDefault(require("./routes/categories.routes"));
 const identification_routes_1 = __importDefault(require("./routes/identification.routes"));
+const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const app = express_1.default();
 //middlewares
 app.use(express_fileupload_1.default());
@@ -26,5 +27,6 @@ app.use(shedule_routes_1.default);
 app.use(turns_routes_1.default);
 app.use(categories_routes_1.default);
 app.use(identification_routes_1.default);
+app.use(auth_routes_1.default);
 exports.default = app;
 //# sourceMappingURL=app.js.map

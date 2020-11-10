@@ -9,6 +9,10 @@ const CategorySchema = new mongoose_1.Schema({
     description: {
         type: String,
         required: [true, 'El valor de la categoría es requerido'],
+    },
+    tennat: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'tennants'
     }
 }, { versionKey: false });
 exports.default = mongoose_1.model("categories", CategorySchema);

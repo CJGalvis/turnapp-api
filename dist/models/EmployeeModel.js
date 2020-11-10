@@ -42,6 +42,11 @@ const EmployeeSchema = new mongoose_1.Schema({
     category: {
         type: String,
         required: [true, 'La categoría del empleado es requerida']
+    },
+    tennat: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'tennants',
+        required: [true, 'El tennant es requerido']
     }
 }, { versionKey: false });
 EmployeeSchema.methods.toJSON = function () {

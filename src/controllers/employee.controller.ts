@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import EmployeeModel, { IEmployee } from '../models/EmployeeModel';
+import * as mongoose from 'mongoose';
 
 export const createEmployee = async (req: Request, res: Response) => {
   try {
@@ -14,6 +15,7 @@ export const createEmployee = async (req: Request, res: Response) => {
       created: new Date(),
       email: body.email,
       category: body.category,
+      tennat: req.tennant
     });
 
     newEmployee.code = newEmployee.firstName.substring(0, 1).toUpperCase() + newEmployee.identificationNumber + newEmployee.firstLastname.substring(0, 1).toUpperCase();
@@ -35,10 +37,11 @@ export const createEmployee = async (req: Request, res: Response) => {
 
 export const getEmployees = async (req: Request, res: Response) => {
   try {
+    let tennant = req.tennant;
     let skip = Number(req.query.skip);
     let limit = Number(req.query.limit);
-    const items: Array<IEmployee> = await EmployeeModel.find().skip(skip).limit(limit);
-    const totalItems: number = await EmployeeModel.countDocuments();
+    const items: Array<IEmployee> = await EmployeeModel.find({ tennant: mongoose.Types.ObjectId(tennant) }).skip(skip).limit(limit);
+    const totalItems: number = await EmployeeModel.countDocuments({ tennant });
     res.status(200).send({
       message: 'ok',
       items,
@@ -119,6 +122,7 @@ export const updateEmployee = async (req: Request, res: Response) => {
 
 export const getEmployeesFilters = async (req: Request, res: Response) => {
   try {
+    let tennant = req.tennant;
     let skip = Number(req.body.skip);
     let limit = Number(req.body.limit);
     let body = {};
@@ -152,7 +156,7 @@ export const getEmployeesFilters = async (req: Request, res: Response) => {
         code: req.body.code
       }
     }
-    const items: Array<IEmployee> = await EmployeeModel.find({ ...body }).skip(skip).limit(limit);
+    const items: Array<IEmployee> = await EmployeeModel.find({ ...body, tennant: mongoose.Types.ObjectId(tennant) }).skip(skip).limit(limit);
     const totalItems: number = await EmployeeModel.countDocuments();
     res.status(200).send({
       message: 'ok',

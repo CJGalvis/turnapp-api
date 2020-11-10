@@ -13,6 +13,10 @@ const CategorySchema = new Schema({
     description: {
         type: String,
         required: [true, 'El valor de la categoría es requerido'],
+    },
+    tennat: {
+        type: Schema.Types.ObjectId,
+        ref: 'tennants'
     }
 },
     { versionKey: false }

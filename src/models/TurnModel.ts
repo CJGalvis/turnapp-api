@@ -18,6 +18,10 @@ const TurnSchema = new Schema({
     timeEnd: {
         type: String,
         required: [true, 'La hora final del turno es requerida'],
+    },
+    tennat: {
+        type: Schema.Types.ObjectId,
+        ref: 'tennants'
     }
 },
     { versionKey: false }

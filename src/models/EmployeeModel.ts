@@ -54,6 +54,11 @@ const EmployeeSchema = new Schema({
   category: {
     type: String,
     required: [true, 'La categoría del empleado es requerida']
+  },
+  tennat: {
+    type: Schema.Types.ObjectId,
+    ref: 'tennants',
+    required: [true, 'El tennant es requerido']
   }
 },
   { versionKey: false }

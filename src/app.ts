@@ -7,6 +7,7 @@ import routesShedules from './routes/shedule.routes';
 import routesTurns from './routes/turns.routes';
 import routesCategories from './routes/categories.routes';
 import routesIdentification from './routes/identification.routes';
+import routesAuth from './routes/auth.routes';
 
 const app: Application = express();
 
@@ -24,5 +25,6 @@ app.use(routesShedules);
 app.use(routesTurns);
 app.use(routesCategories);
 app.use(routesIdentification);
+app.use(routesAuth);
 
 export default app;
