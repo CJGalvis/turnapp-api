@@ -29,7 +29,7 @@ exports.signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 message: 'Usuario o contraseña incorrectos'
             });
         yield TennantModel_1.default.findOneAndUpdate({ email }, { $set: { lastSign: new Date() } });
-        const payload = JSON.parse(JSON.stringify({ name: data.name, id: data._id }));
+        const payload = JSON.parse(JSON.stringify({ name: data.name, id: data.identification }));
         const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET || '', { expiresIn: process.env.EXPIRES_TOKEN });
         res.status(200).send({
             message: 'OK',
@@ -74,7 +74,6 @@ exports.signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
         res.status(500).send({
             message: 'Error interno del servidor',
             error
