@@ -18,7 +18,7 @@ export const signIn = async (req: Request, res: Response) => {
             });
 
         await TennantModel.findOneAndUpdate({ email }, { $set: { lastSign: new Date() } });
-        const payload = JSON.parse(JSON.stringify({ name: data.name, id: data._id }));
+        const payload = JSON.parse(JSON.stringify({ name: data.name, id: data.identification }));
         const token = jwt.sign(payload, process.env.JWT_SECRET || '', { expiresIn: process.env.EXPIRES_TOKEN });
         res.status(200).send({
             message: 'OK',
@@ -62,7 +62,6 @@ export const signUp = async (req: Request, res: Response) => {
             data: newTennant
         });
     } catch (error) {
-        console.log(error);
         res.status(500).send({
             message: 'Error interno del servidor',
             error

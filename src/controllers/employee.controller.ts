@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import EmployeeModel, { IEmployee } from '../models/EmployeeModel';
-import * as mongoose from 'mongoose';
 
 export const createEmployee = async (req: Request, res: Response) => {
   try {
