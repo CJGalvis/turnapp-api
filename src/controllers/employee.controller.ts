@@ -37,11 +37,10 @@ export const createEmployee = async (req: Request, res: Response) => {
 
 export const getEmployees = async (req: Request, res: Response) => {
   try {
-    let tennant = req.tennant;
     let skip = Number(req.query.skip);
     let limit = Number(req.query.limit);
-    const items: Array<IEmployee> = await EmployeeModel.find({ tennant: mongoose.Types.ObjectId(tennant) }).skip(skip).limit(limit);
-    const totalItems: number = await EmployeeModel.countDocuments({ tennant });
+    const items: Array<IEmployee> = await EmployeeModel.find({ tennant: req.tennant }).skip(skip).limit(limit);
+    const totalItems: number = await EmployeeModel.countDocuments({ tennant: req.tennant });
     res.status(200).send({
       message: 'ok',
       items,
@@ -122,7 +121,6 @@ export const updateEmployee = async (req: Request, res: Response) => {
 
 export const getEmployeesFilters = async (req: Request, res: Response) => {
   try {
-    let tennant = req.tennant;
     let skip = Number(req.body.skip);
     let limit = Number(req.body.limit);
     let body = {};
@@ -156,7 +154,7 @@ export const getEmployeesFilters = async (req: Request, res: Response) => {
         code: req.body.code
       }
     }
-    const items: Array<IEmployee> = await EmployeeModel.find({ ...body, tennant: mongoose.Types.ObjectId(tennant) }).skip(skip).limit(limit);
+    const items: Array<IEmployee> = await EmployeeModel.find({ ...body, tennant: req.tennant }).skip(skip).limit(limit);
     const totalItems: number = await EmployeeModel.countDocuments();
     res.status(200).send({
       message: 'ok',

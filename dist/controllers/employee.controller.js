@@ -1,23 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -33,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEmployeesFilters = exports.updateEmployee = exports.deleteEmployee = exports.getOneEmployee = exports.getEmployees = exports.createEmployee = void 0;
 const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
-const mongoose = __importStar(require("mongoose"));
 exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { body } = req;
@@ -66,11 +46,10 @@ exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let tennant = req.tennant;
         let skip = Number(req.query.skip);
         let limit = Number(req.query.limit);
-        const items = yield EmployeeModel_1.default.find({ tennant: mongoose.Types.ObjectId(tennant) }).skip(skip).limit(limit);
-        const totalItems = yield EmployeeModel_1.default.countDocuments({ tennant });
+        const items = yield EmployeeModel_1.default.find({ tennant: req.tennant }).skip(skip).limit(limit);
+        const totalItems = yield EmployeeModel_1.default.countDocuments({ tennant: req.tennant });
         res.status(200).send({
             message: 'ok',
             items,
@@ -149,7 +128,6 @@ exports.updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getEmployeesFilters = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let tennant = req.tennant;
         let skip = Number(req.body.skip);
         let limit = Number(req.body.limit);
         let body = {};
@@ -179,7 +157,7 @@ exports.getEmployeesFilters = (req, res) => __awaiter(void 0, void 0, void 0, fu
                 code: req.body.code
             };
         }
-        const items = yield EmployeeModel_1.default.find(Object.assign(Object.assign({}, body), { tennant: mongoose.Types.ObjectId(tennant) })).skip(skip).limit(limit);
+        const items = yield EmployeeModel_1.default.find(Object.assign(Object.assign({}, body), { tennant: req.tennant })).skip(skip).limit(limit);
         const totalItems = yield EmployeeModel_1.default.countDocuments();
         res.status(200).send({
             message: 'ok',
