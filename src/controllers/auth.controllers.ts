@@ -71,7 +71,7 @@ export const signUp = async (req: Request, res: Response) => {
 
 export const currentUser = async (req: Request, res: Response) => {
     try {
-        const data = await TennantModel.find({ identification: req.tennant });
+        const data = await TennantModel.findById(req.tennant);
         res.status(200).send({
             message: 'OK',
             data

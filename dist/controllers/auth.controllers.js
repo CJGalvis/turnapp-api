@@ -82,7 +82,7 @@ exports.signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.currentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield TennantModel_1.default.find({ identification: req.tennant });
+        const data = yield TennantModel_1.default.findById(req.tennant);
         res.status(200).send({
             message: 'OK',
             data
