@@ -20,7 +20,8 @@ exports.createTurn = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const newTurn = new TurnModel_1.default({
             name: body.name,
             timeStart: body.timeStart,
-            timeEnd: body.timeEnd
+            timeEnd: body.timeEnd,
+            tennant: req.tennant
         });
         yield newTurn.save();
         res.status(200).send({
@@ -37,7 +38,7 @@ exports.createTurn = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.getTurns = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const items = yield TurnModel_1.default.find();
+        const items = yield TurnModel_1.default.find({ tennant: req.tennant });
         res.status(200).send({
             message: 'OK',
             items

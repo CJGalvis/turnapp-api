@@ -10,6 +10,7 @@ export const createShedule = async (req: Request, res: Response) => {
       dateEnd: body.dateEnd,
       type: body.type,
       hours: body.hours,
+      tennant: req.tennant
     })
     await newShedule.save();
     res.status(200).send({
@@ -26,7 +27,7 @@ export const createShedule = async (req: Request, res: Response) => {
 
 export const getShedules = async (req: Request, res: Response) => {
   try {
-    const items = await SheduleModel.find();
+    const items = await SheduleModel.find({ tennant: req.tennant });
     res.status(200).send({
       message: 'OK',
       items

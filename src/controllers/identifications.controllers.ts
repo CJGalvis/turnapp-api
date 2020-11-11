@@ -6,7 +6,8 @@ export const createIdentification = async (req: Request, res: Response) => {
         const { body } = req;
         const newIdentification: IIdentification = new IdentificationModel({
             value: body.value,
-            description: body.description
+            description: body.description,
+            tennant: req.tennant
         });
         await newIdentification.save();
         res.status(200).send({
@@ -23,10 +24,13 @@ export const createIdentification = async (req: Request, res: Response) => {
 
 export const getIdentification = async (req: Request, res: Response) => {
     try {
-        const items = await IdentificationModel.find();
+        const items = await IdentificationModel.find({ tennant: req.tennant });
+        const totalItems: number = await IdentificationModel.countDocuments({ tennant: req.tennant });
+
         res.status(200).send({
             message: 'OK',
-            items
+            items,
+            totalItems
         });
     } catch (error) {
         res.status(500).send({

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signUp = exports.signIn = void 0;
+exports.currentUser = exports.signUp = exports.signIn = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const TennantModel_1 = __importDefault(require("../models/TennantModel"));
@@ -29,7 +29,7 @@ exports.signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 message: 'Usuario o contraseña incorrectos'
             });
         yield TennantModel_1.default.findOneAndUpdate({ email }, { $set: { lastSign: new Date() } });
-        const payload = JSON.parse(JSON.stringify({ name: data.name, id: data.identification }));
+        const payload = JSON.parse(JSON.stringify({ name: data.name, id: data._id }));
         const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET || '', { expiresIn: process.env.EXPIRES_TOKEN });
         res.status(200).send({
             message: 'OK',
@@ -71,6 +71,21 @@ exports.signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).send({
             message: 'Contrato creado correctamente',
             data: newTennant
+        });
+    }
+    catch (error) {
+        res.status(500).send({
+            message: 'Error interno del servidor',
+            error
+        });
+    }
+});
+exports.currentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield TennantModel_1.default.find({ identification: req.tennant });
+        res.status(200).send({
+            message: 'OK',
+            data
         });
     }
     catch (error) {

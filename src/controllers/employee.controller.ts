@@ -3,6 +3,7 @@ import EmployeeModel, { IEmployee } from '../models/EmployeeModel';
 
 export const createEmployee = async (req: Request, res: Response) => {
   try {
+    console.log(req.tennant);
     const { body } = req;
     const newEmployee: IEmployee = new EmployeeModel({
       identificationNumber: body.identificationNumber,
@@ -14,7 +15,7 @@ export const createEmployee = async (req: Request, res: Response) => {
       created: new Date(),
       email: body.email,
       category: body.category,
-      tennat: req.tennant
+      tennant: req.tennant
     });
 
     newEmployee.code = newEmployee.firstName.substring(0, 1).toUpperCase() + newEmployee.identificationNumber + newEmployee.firstLastname.substring(0, 1).toUpperCase();
@@ -56,7 +57,12 @@ export const getEmployees = async (req: Request, res: Response) => {
 export const getOneEmployee = async (req: Request, res: Response) => {
   try {
     const { code } = req.params;
-    const data = await EmployeeModel.find({ code });
+    const data = await EmployeeModel.find({
+      $and: [
+        { code },
+        { tennant: req.tennant }
+      ]
+    });
     if (!data) return res.status(404).send({
       message: 'Empleado no encontrado'
     })
@@ -76,12 +82,22 @@ export const getOneEmployee = async (req: Request, res: Response) => {
 export const deleteEmployee = async (req: Request, res: Response) => {
   try {
     const { code } = req.params;
-    const data = await EmployeeModel.find({ code });
+    const data = await EmployeeModel.find({
+      $and: [
+        { code },
+        { tennant: req.tennant }
+      ]
+    });
     if (!data) return res.status(404).send({
       message: 'Empleado no encontrado'
     })
 
-    await EmployeeModel.findOneAndDelete({ code });
+    await EmployeeModel.findOneAndDelete({
+      $and: [
+        { code },
+        { tennant: req.tennant }
+      ]
+    });
 
     res.status(200).send({
       message: 'Empleado eliminado correctamente',
@@ -99,12 +115,22 @@ export const updateEmployee = async (req: Request, res: Response) => {
   try {
     const { code } = req.params;
     const { body } = req;
-    const data = await EmployeeModel.find({ code });
+    const data = await EmployeeModel.find({
+      $and: [
+        { code },
+        { tennant: req.tennant }
+      ]
+    });
     if (!data) return res.status(404).send({
       message: 'Empleado no encontrado'
     })
 
-    const newData = await EmployeeModel.findOneAndUpdate({ code }, body, { new: true });
+    const newData = await EmployeeModel.findOneAndUpdate({
+      $and: [
+        { code },
+        { tennant: req.tennant }
+      ]
+    }, body, { new: true });
 
     res.status(200).send({
       message: 'Empleado actualizado correctamente',

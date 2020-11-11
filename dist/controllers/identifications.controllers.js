@@ -19,7 +19,8 @@ exports.createIdentification = (req, res) => __awaiter(void 0, void 0, void 0, f
         const { body } = req;
         const newIdentification = new IdentificationType_1.default({
             value: body.value,
-            description: body.description
+            description: body.description,
+            tennant: req.tennant
         });
         yield newIdentification.save();
         res.status(200).send({
@@ -36,10 +37,12 @@ exports.createIdentification = (req, res) => __awaiter(void 0, void 0, void 0, f
 });
 exports.getIdentification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const items = yield IdentificationType_1.default.find();
+        const items = yield IdentificationType_1.default.find({ tennant: req.tennant });
+        const totalItems = yield IdentificationType_1.default.countDocuments({ tennant: req.tennant });
         res.status(200).send({
             message: 'OK',
-            items
+            items,
+            totalItems
         });
     }
     catch (error) {

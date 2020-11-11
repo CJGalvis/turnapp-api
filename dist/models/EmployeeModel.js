@@ -43,8 +43,9 @@ const EmployeeSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'La categoría del empleado es requerida']
     },
-    tennat: {
-        type: String,
+    tennant: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'tennants',
         required: [true, 'El tennant es requerido']
     }
 }, { versionKey: false });

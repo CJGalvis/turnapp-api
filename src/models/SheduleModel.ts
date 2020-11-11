@@ -6,6 +6,7 @@ export interface IShedule extends Document {
   dateEnd: Date;
   type: Date;
   hours: string;
+  tennant: string;
 }
 
 const SheduleSchema = new Schema({
@@ -29,9 +30,10 @@ const SheduleSchema = new Schema({
     type: String,
     required: [true, 'Las horas del turno es requerido'],
   },
-  tennat: {
+  tennant: {
     type: Schema.Types.ObjectId,
-    ref: 'tennants'
+    ref: 'tennants',
+    required: [true, 'El tennant es requerido']
   }
 },
   { versionKey: false }

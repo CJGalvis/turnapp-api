@@ -4,6 +4,7 @@ export interface ITurn extends Document {
     name: string;
     timeStart: string;
     timeEnd: string;
+    tennant: string;
 }
 
 const TurnSchema = new Schema({
@@ -19,9 +20,10 @@ const TurnSchema = new Schema({
         type: String,
         required: [true, 'La hora final del turno es requerida'],
     },
-    tennat: {
+    tennant: {
         type: Schema.Types.ObjectId,
-        ref: 'tennants'
+        ref: 'tennants',
+        required: [true, 'El tennant es requerido']
     }
 },
     { versionKey: false }

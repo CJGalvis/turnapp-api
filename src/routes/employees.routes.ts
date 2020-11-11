@@ -13,9 +13,9 @@ const router: Router = Router();
 
 router.post('/employees/new', [verifyToken], createEmployee);
 router.get('/employees/get', [verifyToken], getEmployees);
-router.post('/employees/get', getEmployeesFilters);
-router.get('/employees/get/:code', getOneEmployee);
-router.delete('/employees/delete/:code', deleteEmployee);
-router.put('/employees/put/:code', updateEmployee);
+router.post('/employees/get', [verifyToken], getEmployeesFilters);
+router.get('/employees/get/:code', [verifyToken], getOneEmployee);
+router.delete('/employees/delete/:code', [verifyToken], deleteEmployee);
+router.put('/employees/put/:code', [verifyToken], updateEmployee);
 
 export default router;

@@ -16,6 +16,7 @@ exports.getEmployeesFilters = exports.updateEmployee = exports.deleteEmployee = 
 const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
 exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(req.tennant);
         const { body } = req;
         const newEmployee = new EmployeeModel_1.default({
             identificationNumber: body.identificationNumber,
@@ -27,7 +28,7 @@ exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
             created: new Date(),
             email: body.email,
             category: body.category,
-            tennat: req.tennant
+            tennant: req.tennant
         });
         newEmployee.code = newEmployee.firstName.substring(0, 1).toUpperCase() + newEmployee.identificationNumber + newEmployee.firstLastname.substring(0, 1).toUpperCase();
         newEmployee.created = new Date();
@@ -66,7 +67,12 @@ exports.getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getOneEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { code } = req.params;
-        const data = yield EmployeeModel_1.default.find({ code });
+        const data = yield EmployeeModel_1.default.find({
+            $and: [
+                { code },
+                { tennant: req.tennant }
+            ]
+        });
         if (!data)
             return res.status(404).send({
                 message: 'Empleado no encontrado'
@@ -86,12 +92,22 @@ exports.getOneEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.deleteEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { code } = req.params;
-        const data = yield EmployeeModel_1.default.find({ code });
+        const data = yield EmployeeModel_1.default.find({
+            $and: [
+                { code },
+                { tennant: req.tennant }
+            ]
+        });
         if (!data)
             return res.status(404).send({
                 message: 'Empleado no encontrado'
             });
-        yield EmployeeModel_1.default.findOneAndDelete({ code });
+        yield EmployeeModel_1.default.findOneAndDelete({
+            $and: [
+                { code },
+                { tennant: req.tennant }
+            ]
+        });
         res.status(200).send({
             message: 'Empleado eliminado correctamente',
             data
@@ -108,12 +124,22 @@ exports.updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const { code } = req.params;
         const { body } = req;
-        const data = yield EmployeeModel_1.default.find({ code });
+        const data = yield EmployeeModel_1.default.find({
+            $and: [
+                { code },
+                { tennant: req.tennant }
+            ]
+        });
         if (!data)
             return res.status(404).send({
                 message: 'Empleado no encontrado'
             });
-        const newData = yield EmployeeModel_1.default.findOneAndUpdate({ code }, body, { new: true });
+        const newData = yield EmployeeModel_1.default.findOneAndUpdate({
+            $and: [
+                { code },
+                { tennant: req.tennant }
+            ]
+        }, body, { new: true });
         res.status(200).send({
             message: 'Empleado actualizado correctamente',
             data: newData

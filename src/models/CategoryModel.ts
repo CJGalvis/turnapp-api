@@ -3,6 +3,7 @@ import { Schema, model, Document } from 'mongoose';
 export interface ICategory extends Document {
     name: string;
     description: string;
+    tennant: string;
 }
 
 const CategorySchema = new Schema({
@@ -14,9 +15,10 @@ const CategorySchema = new Schema({
         type: String,
         required: [true, 'El valor de la categoría es requerido'],
     },
-    tennat: {
+    tennant: {
         type: Schema.Types.ObjectId,
-        ref: 'tennants'
+        ref: 'tennants',
+        required: [true, 'El tennant es requerido']
     }
 },
     { versionKey: false }
