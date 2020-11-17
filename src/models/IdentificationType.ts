@@ -3,7 +3,7 @@ import { Schema, model, Document } from 'mongoose';
 export interface IIdentification extends Document {
     name: string;
     description: string;
-    tennant: string;
+    tenant: string;
 }
 
 const IdentificationTypeSchema = new Schema({
@@ -15,10 +15,10 @@ const IdentificationTypeSchema = new Schema({
         type: String,
         required: [true, 'La descripción es requerido'],
     },
-    tennant: {
+    tenant: {
         type: Schema.Types.ObjectId,
         ref: 'tennants',
-        required: [true, 'El tennant es requerido']
+        required: [true, 'El tenant es requerido']
     }
 },
     { versionKey: false }

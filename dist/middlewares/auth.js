@@ -14,7 +14,7 @@ exports.verifyToken = (req, res, next) => {
                 message: 'Authorization invalid'
             });
         const payload = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET || TOKEN_ALT);
-        req.tennant = payload.id;
+        req.tenant = payload.id;
         next();
     }
     catch (error) {

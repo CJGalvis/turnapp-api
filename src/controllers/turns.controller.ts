@@ -8,7 +8,7 @@ export const createTurn = async (req: Request, res: Response) => {
       name: body.name,
       timeStart: body.timeStart,
       timeEnd: body.timeEnd,
-      tennant: req.tennant
+      tenant: req.tenant
     });
     await newTurn.save();
     res.status(200).send({
@@ -25,7 +25,7 @@ export const createTurn = async (req: Request, res: Response) => {
 
 export const getTurns = async (req: Request, res: Response) => {
   try {
-    const items = await TurnModel.find({ tennant: req.tennant });
+    const items = await TurnModel.find({ tenant: req.tenant });
     res.status(200).send({
       message: 'OK',
       items

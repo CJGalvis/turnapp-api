@@ -16,7 +16,7 @@ exports.getEmployeesFilters = exports.updateEmployee = exports.deleteEmployee = 
 const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
 exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.tennant);
+        console.log(req.tenant);
         const { body } = req;
         const newEmployee = new EmployeeModel_1.default({
             identificationNumber: body.identificationNumber,
@@ -28,7 +28,7 @@ exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
             created: new Date(),
             email: body.email,
             category: body.category,
-            tennant: req.tennant
+            tenant: req.tenant
         });
         newEmployee.code = newEmployee.firstName.substring(0, 1).toUpperCase() + newEmployee.identificationNumber + newEmployee.firstLastname.substring(0, 1).toUpperCase();
         newEmployee.created = new Date();
@@ -49,8 +49,8 @@ exports.getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         let skip = Number(req.query.skip);
         let limit = Number(req.query.limit);
-        const items = yield EmployeeModel_1.default.find({ tennant: req.tennant }).skip(skip).limit(limit);
-        const totalItems = yield EmployeeModel_1.default.countDocuments({ tennant: req.tennant });
+        const items = yield EmployeeModel_1.default.find({ tenant: req.tenant }).skip(skip).limit(limit);
+        const totalItems = yield EmployeeModel_1.default.countDocuments({ tenant: req.tenant });
         res.status(200).send({
             message: 'ok',
             items,
@@ -70,7 +70,7 @@ exports.getOneEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const data = yield EmployeeModel_1.default.find({
             $and: [
                 { code },
-                { tennant: req.tennant }
+                { tenant: req.tenant }
             ]
         });
         if (!data)
@@ -95,7 +95,7 @@ exports.deleteEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const data = yield EmployeeModel_1.default.find({
             $and: [
                 { code },
-                { tennant: req.tennant }
+                { tenant: req.tenant }
             ]
         });
         if (!data)
@@ -105,7 +105,7 @@ exports.deleteEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
         yield EmployeeModel_1.default.findOneAndDelete({
             $and: [
                 { code },
-                { tennant: req.tennant }
+                { tenant: req.tenant }
             ]
         });
         res.status(200).send({
@@ -127,7 +127,7 @@ exports.updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const data = yield EmployeeModel_1.default.find({
             $and: [
                 { code },
-                { tennant: req.tennant }
+                { tenant: req.tenant }
             ]
         });
         if (!data)
@@ -137,7 +137,7 @@ exports.updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const newData = yield EmployeeModel_1.default.findOneAndUpdate({
             $and: [
                 { code },
-                { tennant: req.tennant }
+                { tenant: req.tenant }
             ]
         }, body, { new: true });
         res.status(200).send({
@@ -183,7 +183,7 @@ exports.getEmployeesFilters = (req, res) => __awaiter(void 0, void 0, void 0, fu
                 code: req.body.code
             };
         }
-        const items = yield EmployeeModel_1.default.find(Object.assign(Object.assign({}, body), { tennant: req.tennant })).skip(skip).limit(limit);
+        const items = yield EmployeeModel_1.default.find(Object.assign(Object.assign({}, body), { tenant: req.tenant })).skip(skip).limit(limit);
         const totalItems = yield EmployeeModel_1.default.countDocuments();
         res.status(200).send({
             message: 'ok',

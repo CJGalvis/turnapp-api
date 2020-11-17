@@ -47,4 +47,4 @@ const TennantSchema = new Schema({
     }
 }, { versionKey: false });
 
-export default model<ITenant>("tennants", TennantSchema);
+export default model<ITenant>("tenants", TennantSchema);

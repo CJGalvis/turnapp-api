@@ -7,7 +7,7 @@ export const createCategory = async (req: Request, res: Response) => {
         const newCategory: ICategory = new CategoryModel({
             name: body.name,
             description: body.description,
-            tennant: req.tennant
+            tenant: req.tenant
         });
         await newCategory.save();
         res.status(200).send({
@@ -24,8 +24,8 @@ export const createCategory = async (req: Request, res: Response) => {
 
 export const getCategories = async (req: Request, res: Response) => {
     try {
-        const items = await CategoryModel.find({ tennant: req.tennant });
-        const totalItems: number = await CategoryModel.countDocuments({ tennant: req.tennant });
+        const items = await CategoryModel.find({ tenant: req.tenant });
+        const totalItems: number = await CategoryModel.countDocuments({ tenant: req.tenant });
 
         res.status(200).send({
             message: 'OK',

@@ -10,7 +10,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
             message: 'Authorization invalid'
         });
         const payload = jwt.verify(token, process.env.JWT_SECRET || TOKEN_ALT) as PayloadModel
-        req.tennant = payload.id;
+        req.tenant = payload.id;
         next();
     } catch (error) {
         res.status(500).send({

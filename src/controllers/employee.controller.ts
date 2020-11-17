@@ -3,7 +3,7 @@ import EmployeeModel, { IEmployee } from '../models/EmployeeModel';
 
 export const createEmployee = async (req: Request, res: Response) => {
   try {
-    console.log(req.tennant);
+    console.log(req.tenant);
     const { body } = req;
     const newEmployee: IEmployee = new EmployeeModel({
       identificationNumber: body.identificationNumber,
@@ -15,7 +15,7 @@ export const createEmployee = async (req: Request, res: Response) => {
       created: new Date(),
       email: body.email,
       category: body.category,
-      tennant: req.tennant
+      tenant: req.tenant
     });
 
     newEmployee.code = newEmployee.firstName.substring(0, 1).toUpperCase() + newEmployee.identificationNumber + newEmployee.firstLastname.substring(0, 1).toUpperCase();
@@ -39,8 +39,8 @@ export const getEmployees = async (req: Request, res: Response) => {
   try {
     let skip = Number(req.query.skip);
     let limit = Number(req.query.limit);
-    const items: Array<IEmployee> = await EmployeeModel.find({ tennant: req.tennant }).skip(skip).limit(limit);
-    const totalItems: number = await EmployeeModel.countDocuments({ tennant: req.tennant });
+    const items: Array<IEmployee> = await EmployeeModel.find({ tenant: req.tenant }).skip(skip).limit(limit);
+    const totalItems: number = await EmployeeModel.countDocuments({ tenant: req.tenant });
     res.status(200).send({
       message: 'ok',
       items,
@@ -60,7 +60,7 @@ export const getOneEmployee = async (req: Request, res: Response) => {
     const data = await EmployeeModel.find({
       $and: [
         { code },
-        { tennant: req.tennant }
+        { tenant: req.tenant }
       ]
     });
     if (!data) return res.status(404).send({
@@ -85,7 +85,7 @@ export const deleteEmployee = async (req: Request, res: Response) => {
     const data = await EmployeeModel.find({
       $and: [
         { code },
-        { tennant: req.tennant }
+        { tenant: req.tenant }
       ]
     });
     if (!data) return res.status(404).send({
@@ -95,7 +95,7 @@ export const deleteEmployee = async (req: Request, res: Response) => {
     await EmployeeModel.findOneAndDelete({
       $and: [
         { code },
-        { tennant: req.tennant }
+        { tenant: req.tenant }
       ]
     });
 
@@ -118,7 +118,7 @@ export const updateEmployee = async (req: Request, res: Response) => {
     const data = await EmployeeModel.find({
       $and: [
         { code },
-        { tennant: req.tennant }
+        { tenant: req.tenant }
       ]
     });
     if (!data) return res.status(404).send({
@@ -128,7 +128,7 @@ export const updateEmployee = async (req: Request, res: Response) => {
     const newData = await EmployeeModel.findOneAndUpdate({
       $and: [
         { code },
-        { tennant: req.tennant }
+        { tenant: req.tenant }
       ]
     }, body, { new: true });
 
@@ -179,7 +179,7 @@ export const getEmployeesFilters = async (req: Request, res: Response) => {
         code: req.body.code
       }
     }
-    const items: Array<IEmployee> = await EmployeeModel.find({ ...body, tennant: req.tennant }).skip(skip).limit(limit);
+    const items: Array<IEmployee> = await EmployeeModel.find({ ...body, tenant: req.tenant }).skip(skip).limit(limit);
     const totalItems: number = await EmployeeModel.countDocuments();
     res.status(200).send({
       message: 'ok',

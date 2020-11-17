@@ -10,10 +10,10 @@ const IdentificationTypeSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'La descripción es requerido'],
     },
-    tennant: {
+    tenant: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'tennants',
-        required: [true, 'El tennant es requerido']
+        required: [true, 'El tenant es requerido']
     }
 }, { versionKey: false });
 exports.default = mongoose_1.model("identificationTypes", IdentificationTypeSchema);

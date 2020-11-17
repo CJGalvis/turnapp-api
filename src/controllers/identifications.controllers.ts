@@ -7,7 +7,7 @@ export const createIdentification = async (req: Request, res: Response) => {
         const newIdentification: IIdentification = new IdentificationModel({
             value: body.value,
             description: body.description,
-            tennant: req.tennant
+            tenant: req.tenant
         });
         await newIdentification.save();
         res.status(200).send({
@@ -24,8 +24,8 @@ export const createIdentification = async (req: Request, res: Response) => {
 
 export const getIdentification = async (req: Request, res: Response) => {
     try {
-        const items = await IdentificationModel.find({ tennant: req.tennant });
-        const totalItems: number = await IdentificationModel.countDocuments({ tennant: req.tennant });
+        const items = await IdentificationModel.find({ tenant: req.tenant });
+        const totalItems: number = await IdentificationModel.countDocuments({ tenant: req.tenant });
 
         res.status(200).send({
             message: 'OK',

@@ -11,7 +11,7 @@ export interface IEmployee extends Document {
   email: string;
   created: Date;
   category: string;
-  tennant: string;
+  tenant: string;
 }
 
 const EmployeeSchema = new Schema({
@@ -56,10 +56,10 @@ const EmployeeSchema = new Schema({
     type: String,
     required: [true, 'La categoría del empleado es requerida']
   },
-  tennant: {
+  tenant: {
     type: Schema.Types.ObjectId,
-    ref: 'tennants',
-    required: [true, 'El tennant es requerido']
+    ref: 'tenants',
+    required: [true, 'El tenant es requerido']
   }
 },
   { versionKey: false }

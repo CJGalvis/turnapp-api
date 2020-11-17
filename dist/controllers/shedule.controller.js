@@ -23,7 +23,7 @@ exports.createShedule = (req, res) => __awaiter(void 0, void 0, void 0, function
             dateEnd: body.dateEnd,
             type: body.type,
             hours: body.hours,
-            tennant: req.tennant
+            tenant: req.tenant
         });
         yield newShedule.save();
         res.status(200).send({
@@ -40,7 +40,7 @@ exports.createShedule = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.getShedules = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const items = yield SheduleModel_1.default.find({ tennant: req.tennant });
+        const items = yield SheduleModel_1.default.find({ tenant: req.tenant });
         res.status(200).send({
             message: 'OK',
             items

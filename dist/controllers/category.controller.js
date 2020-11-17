@@ -20,7 +20,7 @@ exports.createCategory = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const newCategory = new CategoryModel_1.default({
             name: body.name,
             description: body.description,
-            tennant: req.tennant
+            tenant: req.tenant
         });
         yield newCategory.save();
         res.status(200).send({
@@ -37,8 +37,8 @@ exports.createCategory = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const items = yield CategoryModel_1.default.find({ tennant: req.tennant });
-        const totalItems = yield CategoryModel_1.default.countDocuments({ tennant: req.tennant });
+        const items = yield CategoryModel_1.default.find({ tenant: req.tenant });
+        const totalItems = yield CategoryModel_1.default.countDocuments({ tenant: req.tenant });
         res.status(200).send({
             message: 'OK',
             items,
