@@ -39,7 +39,11 @@ export const getEmployees = async (req: Request, res: Response) => {
   try {
     let skip = Number(req.query.skip);
     let limit = Number(req.query.limit);
-    const items: Array<IEmployee> = await EmployeeModel.find({ tenant: req.tenant }).skip(skip).limit(limit);
+    const items: Array<IEmployee> = await EmployeeModel.find({ tenant: req.tenant })
+      .skip(skip)
+      .limit(limit)
+      .populate('category name')
+      .exec();
     const totalItems: number = await EmployeeModel.countDocuments({ tenant: req.tenant });
     res.status(200).send({
       message: 'ok',
@@ -168,9 +172,7 @@ export const getEmployeesFilters = async (req: Request, res: Response) => {
 
     if (req.body.category) {
       body = Object.assign({
-        $or: [
-          { category: req.body.category }
-        ]
+        category: req.body.category
       }, body)
     }
 
@@ -179,10 +181,14 @@ export const getEmployeesFilters = async (req: Request, res: Response) => {
         code: req.body.code
       }
     }
-    const items: Array<IEmployee> = await EmployeeModel.find({ ...body, tenant: req.tenant }).skip(skip).limit(limit);
+    const items: Array<IEmployee> = await EmployeeModel.find({ ...body, tenant: req.tenant })
+      .skip(skip)
+      .limit(limit)
+      .populate('category name')
+      .exec();
     const totalItems: number = await EmployeeModel.countDocuments();
     res.status(200).send({
-      message: 'ok',
+      message: 'OK',
       items,
       totalItems
     })

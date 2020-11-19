@@ -6,7 +6,7 @@ const auth_1 = require("../middlewares/auth");
 const router = express_1.Router();
 router.post('/employees/new', [auth_1.verifyToken], employee_controller_1.createEmployee);
 router.get('/employees/get', [auth_1.verifyToken], employee_controller_1.getEmployees);
-router.post('/employees/get', [auth_1.verifyToken], employee_controller_1.getEmployeesFilters);
+router.post('/employees/filters/get', [auth_1.verifyToken], employee_controller_1.getEmployeesFilters);
 router.get('/employees/get/:code', [auth_1.verifyToken], employee_controller_1.getOneEmployee);
 router.delete('/employees/delete/:code', [auth_1.verifyToken], employee_controller_1.deleteEmployee);
 router.put('/employees/put/:code', [auth_1.verifyToken], employee_controller_1.updateEmployee);

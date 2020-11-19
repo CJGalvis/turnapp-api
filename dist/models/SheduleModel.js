@@ -20,7 +20,7 @@ const SheduleSchema = new mongoose_1.Schema({
     },
     hours: {
         type: String,
-        required: [true, 'Las horas del turno es requerido'],
+        required: [true, 'Las horas del turno son requeridas'],
     },
     tenant: {
         type: mongoose_1.Schema.Types.ObjectId,

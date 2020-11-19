@@ -13,7 +13,7 @@ const router: Router = Router();
 
 router.post('/employees/new', [verifyToken], createEmployee);
 router.get('/employees/get', [verifyToken], getEmployees);
-router.post('/employees/get', [verifyToken], getEmployeesFilters);
+router.post('/employees/filters/get', [verifyToken], getEmployeesFilters);
 router.get('/employees/get/:code', [verifyToken], getOneEmployee);
 router.delete('/employees/delete/:code', [verifyToken], deleteEmployee);
 router.put('/employees/put/:code', [verifyToken], updateEmployee);

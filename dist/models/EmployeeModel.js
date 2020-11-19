@@ -40,7 +40,8 @@ const EmployeeSchema = new mongoose_1.Schema({
         type: Date,
     },
     category: {
-        type: String,
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'categories',
         required: [true, 'La categoría del empleado es requerida']
     },
     tenant: {

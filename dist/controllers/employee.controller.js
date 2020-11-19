@@ -49,7 +49,11 @@ exports.getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         let skip = Number(req.query.skip);
         let limit = Number(req.query.limit);
-        const items = yield EmployeeModel_1.default.find({ tenant: req.tenant }).skip(skip).limit(limit);
+        const items = yield EmployeeModel_1.default.find({ tenant: req.tenant })
+            .skip(skip)
+            .limit(limit)
+            .populate('category name')
+            .exec();
         const totalItems = yield EmployeeModel_1.default.countDocuments({ tenant: req.tenant });
         res.status(200).send({
             message: 'ok',
@@ -173,9 +177,7 @@ exports.getEmployeesFilters = (req, res) => __awaiter(void 0, void 0, void 0, fu
         }
         if (req.body.category) {
             body = Object.assign({
-                $or: [
-                    { category: req.body.category }
-                ]
+                category: req.body.category
             }, body);
         }
         if (req.body.code) {
@@ -183,10 +185,14 @@ exports.getEmployeesFilters = (req, res) => __awaiter(void 0, void 0, void 0, fu
                 code: req.body.code
             };
         }
-        const items = yield EmployeeModel_1.default.find(Object.assign(Object.assign({}, body), { tenant: req.tenant })).skip(skip).limit(limit);
+        const items = yield EmployeeModel_1.default.find(Object.assign(Object.assign({}, body), { tenant: req.tenant }))
+            .skip(skip)
+            .limit(limit)
+            .populate('category name')
+            .exec();
         const totalItems = yield EmployeeModel_1.default.countDocuments();
         res.status(200).send({
-            message: 'ok',
+            message: 'OK',
             items,
             totalItems
         });

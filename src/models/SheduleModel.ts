@@ -28,7 +28,7 @@ const SheduleSchema = new Schema({
   },
   hours: {
     type: String,
-    required: [true, 'Las horas del turno es requerido'],
+    required: [true, 'Las horas del turno son requeridas'],
   },
   tenant: {
     type: Schema.Types.ObjectId,

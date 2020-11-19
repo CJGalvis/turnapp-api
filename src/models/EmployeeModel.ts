@@ -53,7 +53,8 @@ const EmployeeSchema = new Schema({
     type: Date,
   },
   category: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'categories',
     required: [true, 'La categoría del empleado es requerida']
   },
   tenant: {
