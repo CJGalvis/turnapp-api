@@ -24,7 +24,12 @@ export const createCategory = async (req: Request, res: Response) => {
 
 export const getCategories = async (req: Request, res: Response) => {
     try {
-        const items = await CategoryModel.find({ tenant: req.tenant });
+        let skip = Number(req.query.skip);
+        let limit = Number(req.query.limit);
+        const items = await CategoryModel.find({ tenant: req.tenant })
+            .skip(skip)
+            .limit(limit)
+            .exec();
         const totalItems: number = await CategoryModel.countDocuments({ tenant: req.tenant });
 
         res.status(200).send({

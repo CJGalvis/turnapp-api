@@ -37,7 +37,12 @@ exports.createCategory = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const items = yield CategoryModel_1.default.find({ tenant: req.tenant });
+        let skip = Number(req.query.skip);
+        let limit = Number(req.query.limit);
+        const items = yield CategoryModel_1.default.find({ tenant: req.tenant })
+            .skip(skip)
+            .limit(limit)
+            .exec();
         const totalItems = yield CategoryModel_1.default.countDocuments({ tenant: req.tenant });
         res.status(200).send({
             message: 'OK',

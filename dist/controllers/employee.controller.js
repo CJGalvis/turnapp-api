@@ -16,15 +16,14 @@ exports.getEmployeesFilters = exports.updateEmployee = exports.deleteEmployee = 
 const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
 exports.createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.tenant);
         const { body } = req;
         const newEmployee = new EmployeeModel_1.default({
             identificationNumber: body.identificationNumber,
             identificationType: body.identificationType,
-            firstName: body.firstName,
-            seconName: body.seconName,
-            firstLastname: body.firstLastname,
-            seconLastname: body.seconLastname,
+            firstName: body.firstName.toLowerCase(),
+            seconName: body.seconName.toLowerCase(),
+            firstLastname: body.firstLastname.toLowerCase(),
+            seconLastname: body.seconLastname.toLowerCase(),
             created: new Date(),
             email: body.email,
             category: body.category,
@@ -138,12 +137,21 @@ exports.updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
             return res.status(404).send({
                 message: 'Empleado no encontrado'
             });
+        const dataUpdated = {
+            identificationType: body.identificationType,
+            firstName: body.firstName.toLowerCase(),
+            seconName: body.seconName.toLowerCase(),
+            firstLastname: body.firstLastname.toLowerCase(),
+            seconLastname: body.seconLastname.toLowerCase(),
+            email: body.email,
+            category: body.category,
+        };
         const newData = yield EmployeeModel_1.default.findOneAndUpdate({
             $and: [
                 { code },
                 { tenant: req.tenant }
             ]
-        }, body, { new: true });
+        }, dataUpdated, { new: true });
         res.status(200).send({
             message: 'Empleado actualizado correctamente',
             data: newData
@@ -158,20 +166,22 @@ exports.updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getEmployeesFilters = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let skip = Number(req.body.skip);
-        let limit = Number(req.body.limit);
+        let skip = Number(req.query.skip);
+        let limit = Number(req.query.limit);
         let body = {};
         if (req.body.firstName) {
+            const firstName = req.body.firstName;
             body = Object.assign({
                 $or: [
-                    { firstName: new RegExp(`${req.body.firstName}.*`, 'i') }
+                    { firstName: new RegExp(`${firstName.toLowerCase()}.*`, 'i') }
                 ]
             }, body);
         }
         if (req.body.firstLastname) {
+            const firstLastname = req.body.firstLastname;
             body = Object.assign({
                 $or: [
-                    { firstLastname: new RegExp(`${req.body.firstLastname}.*`, 'i') }
+                    { firstLastname: new RegExp(`${firstLastname.toLowerCase()}.*`, 'i') }
                 ]
             }, body);
         }

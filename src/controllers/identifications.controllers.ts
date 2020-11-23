@@ -24,7 +24,12 @@ export const createIdentification = async (req: Request, res: Response) => {
 
 export const getIdentification = async (req: Request, res: Response) => {
     try {
-        const items = await IdentificationModel.find({ tenant: req.tenant });
+        let skip = Number(req.query.skip);
+        let limit = Number(req.query.limit);
+        const items = await IdentificationModel.find({ tenant: req.tenant })
+            .skip(skip)
+            .limit(limit)
+            .exec();
         const totalItems: number = await IdentificationModel.countDocuments({ tenant: req.tenant });
 
         res.status(200).send({

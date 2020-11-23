@@ -25,10 +25,18 @@ export const createTurn = async (req: Request, res: Response) => {
 
 export const getTurns = async (req: Request, res: Response) => {
   try {
-    const items = await TurnModel.find({ tenant: req.tenant });
+    let skip = Number(req.query.skip);
+    let limit = Number(req.query.limit);
+    const items = await TurnModel.find({ tenant: req.tenant })
+      .skip(skip)
+      .limit(limit)
+      .exec();
+    const totalItems: number = await TurnModel.countDocuments({ tenant: req.tenant });
+
     res.status(200).send({
       message: 'OK',
-      items
+      items,
+      totalItems
     });
   } catch (error) {
     res.status(500).send({

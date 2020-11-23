@@ -13,6 +13,7 @@ const turns_routes_1 = __importDefault(require("./routes/turns.routes"));
 const categories_routes_1 = __importDefault(require("./routes/categories.routes"));
 const identification_routes_1 = __importDefault(require("./routes/identification.routes"));
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
+//import { checkConnection } from './middlewares/checkConnectionDB';
 const app = express_1.default();
 //middlewares
 app.use(express_fileupload_1.default());
@@ -20,6 +21,7 @@ app.use(compression_1.default());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 app.use(cors_1.default());
+//app.use(checkConnection);
 //routes
 app.get("/", (req, res) => res.send("API REST running"));
 app.use(employees_routes_1.default);

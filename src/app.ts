@@ -8,6 +8,7 @@ import routesTurns from './routes/turns.routes';
 import routesCategories from './routes/categories.routes';
 import routesIdentification from './routes/identification.routes';
 import routesAuth from './routes/auth.routes';
+//import { checkConnection } from './middlewares/checkConnectionDB';
 
 const app: Application = express();
 
@@ -17,6 +18,7 @@ app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+//app.use(checkConnection);
 
 //routes
 app.get("/", (req, res) => res.send("API REST running"));

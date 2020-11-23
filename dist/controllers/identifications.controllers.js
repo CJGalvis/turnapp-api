@@ -37,7 +37,12 @@ exports.createIdentification = (req, res) => __awaiter(void 0, void 0, void 0, f
 });
 exports.getIdentification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const items = yield IdentificationType_1.default.find({ tenant: req.tenant });
+        let skip = Number(req.query.skip);
+        let limit = Number(req.query.limit);
+        const items = yield IdentificationType_1.default.find({ tenant: req.tenant })
+            .skip(skip)
+            .limit(limit)
+            .exec();
         const totalItems = yield IdentificationType_1.default.countDocuments({ tenant: req.tenant });
         res.status(200).send({
             message: 'OK',

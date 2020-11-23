@@ -3,15 +3,14 @@ import EmployeeModel, { IEmployee } from '../models/EmployeeModel';
 
 export const createEmployee = async (req: Request, res: Response) => {
   try {
-    console.log(req.tenant);
     const { body } = req;
     const newEmployee: IEmployee = new EmployeeModel({
       identificationNumber: body.identificationNumber,
       identificationType: body.identificationType,
-      firstName: body.firstName,
-      seconName: body.seconName,
-      firstLastname: body.firstLastname,
-      seconLastname: body.seconLastname,
+      firstName: body.firstName.toLowerCase(),
+      seconName: body.seconName.toLowerCase(),
+      firstLastname: body.firstLastname.toLowerCase(),
+      seconLastname: body.seconLastname.toLowerCase(),
       created: new Date(),
       email: body.email,
       category: body.category,
@@ -129,12 +128,21 @@ export const updateEmployee = async (req: Request, res: Response) => {
       message: 'Empleado no encontrado'
     })
 
+    const dataUpdated = {
+      identificationType: body.identificationType,
+      firstName: body.firstName.toLowerCase(),
+      seconName: body.seconName.toLowerCase(),
+      firstLastname: body.firstLastname.toLowerCase(),
+      seconLastname: body.seconLastname.toLowerCase(),
+      email: body.email,
+      category: body.category,
+    }
     const newData = await EmployeeModel.findOneAndUpdate({
       $and: [
         { code },
         { tenant: req.tenant }
       ]
-    }, body, { new: true });
+    }, dataUpdated, { new: true });
 
     res.status(200).send({
       message: 'Empleado actualizado correctamente',
@@ -150,22 +158,24 @@ export const updateEmployee = async (req: Request, res: Response) => {
 
 export const getEmployeesFilters = async (req: Request, res: Response) => {
   try {
-    let skip = Number(req.body.skip);
-    let limit = Number(req.body.limit);
+    let skip = Number(req.query.skip);
+    let limit = Number(req.query.limit);
     let body = {};
 
     if (req.body.firstName) {
+      const firstName: string = req.body.firstName;
       body = Object.assign({
         $or: [
-          { firstName: new RegExp(`${req.body.firstName}.*`, 'i') }
+          { firstName: new RegExp(`${firstName.toLowerCase()}.*`, 'i') }
         ]
       }, body)
     }
 
     if (req.body.firstLastname) {
+      const firstLastname: string = req.body.firstLastname;
       body = Object.assign({
         $or: [
-          { firstLastname: new RegExp(`${req.body.firstLastname}.*`, 'i') }
+          { firstLastname: new RegExp(`${firstLastname.toLowerCase()}.*`, 'i') }
         ]
       }, body)
     }
