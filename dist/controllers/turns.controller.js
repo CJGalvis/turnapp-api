@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateTurn = exports.deleteTurns = exports.getTurns = exports.createTurn = void 0;
 const TurnModel_1 = __importDefault(require("../models/TurnModel"));
+const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
 exports.createTurn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { body } = req;
@@ -65,6 +66,11 @@ exports.deleteTurns = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (!data)
             return res.status(404).send({
                 message: 'Turno no encontrado'
+            });
+        const employees = yield EmployeeModel_1.default.find({ category: _id, tenant: req.tenant });
+        if (employees && employees.length > 0)
+            return res.status(400).send({
+                message: 'El turno está en uso y no puede ser eliminado'
             });
         yield TurnModel_1.default.findByIdAndDelete(_id);
         res.status(200).send({

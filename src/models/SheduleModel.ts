@@ -23,7 +23,8 @@ const SheduleSchema = new Schema({
     required: [true, 'La fecha final del turno es requerida'],
   },
   type: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'turns',
     required: [true, 'El tipo de turno es requerido'],
   },
   hours: {

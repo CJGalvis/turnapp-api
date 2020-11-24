@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCategory = exports.deleteCategory = exports.getCategories = exports.createCategory = void 0;
 const CategoryModel_1 = __importDefault(require("../models/CategoryModel"));
+const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
 exports.createCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { body } = req;
@@ -64,6 +65,11 @@ exports.deleteCategory = (req, res) => __awaiter(void 0, void 0, void 0, functio
         if (!data)
             return res.status(404).send({
                 message: 'Categoría no encontrada'
+            });
+        const employees = yield EmployeeModel_1.default.find({ category: _id, tenant: req.tenant });
+        if (employees && employees.length > 0)
+            return res.status(400).send({
+                message: 'La categoría está en uso y no puede ser eliminada'
             });
         yield CategoryModel_1.default.findByIdAndDelete(_id);
         res.status(200).send({

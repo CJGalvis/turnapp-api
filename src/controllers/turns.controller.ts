@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import TurnModel, { ITurn } from '../models/TurnModel';
+import EmployeeModel from '../models/EmployeeModel';
 
 export const createTurn = async (req: Request, res: Response) => {
   try {
@@ -52,14 +53,19 @@ export const deleteTurns = async (req: Request, res: Response) => {
     const data = await TurnModel.findById(_id);
     if (!data) return res.status(404).send({
       message: 'Turno no encontrado'
-    })
+    });
+
+    const employees = await EmployeeModel.find({ category: _id, tenant: req.tenant });
+    if (employees && employees.length > 0) return res.status(400).send({
+      message: 'El turno está en uso y no puede ser eliminado'
+    });
 
     await TurnModel.findByIdAndDelete(_id);
 
     res.status(200).send({
       message: 'turno eliminado correctamente',
       data
-    })
+    });
   } catch (error) {
     res.status(500).send({
       message: error.message,

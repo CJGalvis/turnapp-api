@@ -15,7 +15,8 @@ const SheduleSchema = new mongoose_1.Schema({
         required: [true, 'La fecha final del turno es requerida'],
     },
     type: {
-        type: String,
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'turns',
         required: [true, 'El tipo de turno es requerido'],
     },
     hours: {

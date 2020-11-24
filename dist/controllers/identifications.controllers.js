@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateIdentification = exports.deleteIdentification = exports.getIdentification = exports.createIdentification = void 0;
 const IdentificationType_1 = __importDefault(require("../models/IdentificationType"));
+const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
 exports.createIdentification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { body } = req;
@@ -64,6 +65,11 @@ exports.deleteIdentification = (req, res) => __awaiter(void 0, void 0, void 0, f
         if (!data)
             return res.status(404).send({
                 message: 'Identificaión no encontrada'
+            });
+        const employees = yield EmployeeModel_1.default.find({ category: _id, tenant: req.tenant });
+        if (employees && employees.length > 0)
+            return res.status(400).send({
+                message: 'El tipo de identificación está en uso y no puede ser eliminado'
             });
         yield IdentificationType_1.default.findByIdAndDelete(_id);
         res.status(200).send({

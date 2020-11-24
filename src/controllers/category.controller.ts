@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import CategoryModel, { ICategory } from '../models/CategoryModel';
+import EmployeeModel from '../models/EmployeeModel';
 
 export const createCategory = async (req: Request, res: Response) => {
     try {
@@ -51,14 +52,19 @@ export const deleteCategory = async (req: Request, res: Response) => {
         const data = await CategoryModel.findById(_id);
         if (!data) return res.status(404).send({
             message: 'Categoría no encontrada'
-        })
+        });
+
+        const employees = await EmployeeModel.find({ category: _id, tenant: req.tenant });
+        if (employees && employees.length > 0) return res.status(400).send({
+            message: 'La categoría está en uso y no puede ser eliminada'
+        });
 
         await CategoryModel.findByIdAndDelete(_id);
 
         res.status(200).send({
             message: 'Categoría eliminada correctamente',
             data
-        })
+        });
     } catch (error) {
         res.status(500).send({
             message: error.message,

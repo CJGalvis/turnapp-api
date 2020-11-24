@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import IdentificationModel, { IIdentification } from '../models/IdentificationType';
+import EmployeeModel from '../models/EmployeeModel';
 
 export const createIdentification = async (req: Request, res: Response) => {
     try {
@@ -51,14 +52,19 @@ export const deleteIdentification = async (req: Request, res: Response) => {
         const data = await IdentificationModel.findById(_id);
         if (!data) return res.status(404).send({
             message: 'Identificaión no encontrada'
-        })
+        });
+
+        const employees = await EmployeeModel.find({ category: _id, tenant: req.tenant });
+        if (employees && employees.length > 0) return res.status(400).send({
+            message: 'El tipo de identificación está en uso y no puede ser eliminado'
+        });
 
         await IdentificationModel.findByIdAndDelete(_id);
 
         res.status(200).send({
             message: 'Identificación eliminada correctamente',
             data
-        })
+        });
     } catch (error) {
         res.status(500).send({
             message: error.message,
