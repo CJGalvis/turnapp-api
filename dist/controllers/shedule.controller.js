@@ -17,6 +17,7 @@ const SheduleModel_1 = __importDefault(require("../models/SheduleModel"));
 const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
 exports.createShedule = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        let hasError = false;
         const { body } = req;
         const employee = yield EmployeeModel_1.default.find({ code: body.employeeCode, tenant: req.tenant });
         if (!employee)
@@ -24,16 +25,20 @@ exports.createShedule = (req, res) => __awaiter(void 0, void 0, void 0, function
                 message: 'El empleado no existe o el código es incorrecto'
             });
         const shedulesEmployee = yield SheduleModel_1.default.find({ employeeCode: body.employeeCode, tenant: req.tenant });
-        console.log(shedulesEmployee);
         if (shedulesEmployee && shedulesEmployee.length > 0) {
             shedulesEmployee.forEach((item) => {
-                if (body.dateStart >= item.dateStart && body.dateEnd <= item.dateEnd) {
-                    return res.status(400).send({
-                        message: 'Existen solapes en los turnos del empleado seleccionado'
-                    });
+                const dateStart = new Date(body.dateStart);
+                const dateStartItem = new Date(item.dateStart);
+                const dateEndItem = new Date(item.dateStart);
+                if ((dateStart.getTime() >= dateStartItem.getTime() && dateStart.getTime() <= dateEndItem.getTime())) {
+                    hasError = true;
                 }
             });
         }
+        if (hasError)
+            return res.status(400).send({
+                message: 'Existen solapes en los turnos del empleado seleccionado'
+            });
         const newShedule = new SheduleModel_1.default({
             employeeCode: body.employeeCode,
             dateStart: body.dateStart,
@@ -93,7 +98,7 @@ exports.deleteShedule = (req, res) => __awaiter(void 0, void 0, void 0, function
             });
         yield SheduleModel_1.default.findByIdAndDelete(_id);
         res.status(200).send({
-            message: 'horario eliminado correctamente',
+            message: 'Horario eliminado correctamente',
             data
         });
     }
@@ -111,11 +116,11 @@ exports.updateShedule = (req, res) => __awaiter(void 0, void 0, void 0, function
         const data = yield SheduleModel_1.default.findById(_id);
         if (!data)
             return res.status(404).send({
-                message: 'horario no encontrada'
+                message: 'Horario no encontrada'
             });
         const newData = yield SheduleModel_1.default.findByIdAndUpdate(_id, body, { new: true });
         res.status(200).send({
-            message: 'horario actualizado correctamente',
+            message: 'Horario actualizado correctamente',
             data: newData
         });
     }

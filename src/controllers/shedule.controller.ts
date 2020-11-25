@@ -4,6 +4,7 @@ import EmployeeModel from '../models/EmployeeModel';
 
 export const createShedule = async (req: Request, res: Response) => {
   try {
+    let hasError: boolean = false;
     const { body } = req;
     const employee = await EmployeeModel.find({ code: body.employeeCode, tenant: req.tenant });
     if (!employee) return res.status(400).send({
@@ -11,17 +12,20 @@ export const createShedule = async (req: Request, res: Response) => {
     });
 
     const shedulesEmployee = await SheduleModel.find({ employeeCode: body.employeeCode, tenant: req.tenant });
-    console.log(shedulesEmployee);
     if (shedulesEmployee && shedulesEmployee.length > 0) {
       shedulesEmployee.forEach((item: IShedule) => {
-        if (body.dateStart >= item.dateStart && body.dateEnd <= item.dateEnd) {
-          return res.status(400).send({
-            message: 'Existen solapes en los turnos del empleado seleccionado'
-          });
+        const dateStart = new Date(body.dateStart);
+        const dateStartItem = new Date(item.dateStart);
+        const dateEndItem = new Date(item.dateStart);
+        if ((dateStart.getTime() >= dateStartItem.getTime() && dateStart.getTime() <= dateEndItem.getTime())) {
+          hasError = true;
         }
       });
     }
 
+    if (hasError) return res.status(400).send({
+      message: 'Existen solapes en los turnos del empleado seleccionado'
+    });
     const newShedule: IShedule = new SheduleModel({
       employeeCode: body.employeeCode,
       dateStart: body.dateStart,
@@ -83,7 +87,7 @@ export const deleteShedule = async (req: Request, res: Response) => {
     await SheduleModel.findByIdAndDelete(_id);
 
     res.status(200).send({
-      message: 'horario eliminado correctamente',
+      message: 'Horario eliminado correctamente',
       data
     });
   } catch (error) {
@@ -100,13 +104,13 @@ export const updateShedule = async (req: Request, res: Response) => {
     const { body } = req;
     const data = await SheduleModel.findById(_id);
     if (!data) return res.status(404).send({
-      message: 'horario no encontrada'
+      message: 'Horario no encontrada'
     })
 
     const newData = await SheduleModel.findByIdAndUpdate(_id, body, { new: true });
 
     res.status(200).send({
-      message: 'horario actualizado correctamente',
+      message: 'Horario actualizado correctamente',
       data: newData
     })
   } catch (error) {
