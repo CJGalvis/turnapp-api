@@ -8,6 +8,8 @@
 
 #### Mongo DB: https://docs.mongodb.com/manual/installation/
 
+#### Change string connection for mongo DB into file .env
+
 #### GIT: https://git-scm.com/
 
 #### run command git clone https://github.com/CJGalvis/turnapp-api
